@@ -37,24 +37,19 @@ $(document).ready(function(event) {
   $("#startGame").click(function(){ 
     $("#playerCreate").hide();
     $("#gameInterface").show();
+    $("#pass").hide();
     startGame();
    });
 
   $("#pass").click(function() {
-    passTurn();
-    // console.log("pass!")
-    // $("#diceRoll").text("")
-    // pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
-    // pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
-    // pigGame.activePlayerIndex += 1;
-    // if (pigGame.activePlayerIndex > pigGame.playerCount - 1) {
-
-    //   pigGame.activePlayerIndex = 0 
-    //   console.log("index reset")
-    // }
-    // displayActivePlayer(pigGame.activePlayerIndex)
-    // displayPlayers(pigGame.playerArray);
+    passTurn();    
   });
+
+  $("#hold").click(function() {
+    passTurn();    
+  });
+
+
 
   $("#roll").click(function() {
     let diceRoll = Math.floor((Math.random() * 6) + 1);
@@ -63,6 +58,8 @@ $(document).ready(function(event) {
     if (diceRoll ===1) {
       $("#diceRoll").text("Rolled a 1 OUCH!")
       $("#roll").hide();
+      $("#hold").hide();
+      $("#pass").show();
       pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
       displayActivePlayer(pigGame.activePlayerIndex)
       //passTurn();
@@ -75,6 +72,8 @@ $(document).ready(function(event) {
   function passTurn () {
     console.log("pass!")
     $("#roll").show();
+    $("#pass").hide();
+    $("#hold").show();
     $("#diceRoll").text("")
     pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
