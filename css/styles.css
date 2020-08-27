@@ -1,29 +1,46 @@
+body {
+  background-color: black;
+  color: palevioletred;
+}
+
+
 .player {
-  border: solid black;
-  border-width: 2px;
-  margin: auto;
-  padding: 5px;
+  border: solid palevioletred;
+  border-width: 5px;
+  margin: 5px;
+  padding: 10px;
   width: 80%;
 }
 
 #playerCreate {
-  border: solid black;
-  border-width: 2px;
+  border: solid palevioletred;
+  border-width: 5px;
   padding: 10px;
   width: 80%;
 }
 
 #gameInterface {
+  text-align: center;
   display: none;
-  border: solid black;
-  border-width: 2px;
+  border: solid palevioletred;
+  border-width: 5px;
   padding: 5px;
   width: 80%;
+  /* height: 40%; */
+}
+
+#gameInterface p {
+  font-weight: 500;
+  font-size: x-large;
+  color: blueviolet;
 }
 
 .btn {
   border: solid black;
   margin: 5px;
+  color: palevioletred;
+  border: solid palevioletred;
+  border-width: 2px;
 }
 
 #winner {
@@ -38,4 +55,14 @@ h4 {
 
 .playerGroup p {
   font-weight: 500;
+  font-size: x-large;
+  color: blueviolet;
+}
+
+.form-control {
+  padding: 5px;
+}
+
+h2 {
+  color: rgb(43, 226, 220);
 }

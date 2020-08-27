@@ -227,7 +227,7 @@ $(document).ready(function(event) {
 
   function endGame(){
     console.log("endgametrigger")
-    if (pigGame.playerArray[pigGame.activePlayerIndex].totalScore >= 50){
+    if (pigGame.playerArray[pigGame.activePlayerIndex].totalScore >= 100){
      //$("#everything").hide();
      $("#winner").show();
      $("#winner").text(pigGame.playerArray[pigGame.activePlayerIndex].name + " Wins! Final Score: "+pigGame.playerArray[pigGame.activePlayerIndex].totalScore);
