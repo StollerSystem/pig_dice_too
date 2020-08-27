@@ -47,6 +47,24 @@ $(document).ready(function(event) {
   });
 
   $("#roll").click(function() {
+    rollDice();
+    // let diceRoll = Math.floor((Math.random() * 6) + 1);
+    // console.log(diceRoll)
+    // $("#diceRoll").text("Rolled a "+diceRoll+"!") 
+    // if (diceRoll ===1) {
+    //   $("#diceRoll").text("Rolled a 1 OUCH!")
+    //   $("#roll").hide();
+    //   $("#hold").hide();
+    //   $("#pass").show();
+    //   pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+    //   displayActivePlayer(pigGame.activePlayerIndex)
+    //   //passTurn();
+    // } else {
+    //     addScore(diceRoll);
+    // }
+  });
+
+  function rollDice () {
     let diceRoll = Math.floor((Math.random() * 6) + 1);
     console.log(diceRoll)
     $("#diceRoll").text("Rolled a "+diceRoll+"!") 
@@ -61,24 +79,69 @@ $(document).ready(function(event) {
     } else {
         addScore(diceRoll);
     }
-  });
+  }
 
-  function passTurn () { // NEED TO CHECK FOR AI HERE?
-    console.log("pass!")
-    $("#roll").show();
-    $("#pass").hide();
-    $("#hold").show();
-    $("#diceRoll").text("")
-    
+
+  function passTurn () {   
+    console.log("pass!")      
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
     pigGame.activePlayerIndex += 1;
     if (pigGame.activePlayerIndex > pigGame.playerCount - 1) {
       pigGame.activePlayerIndex = 0 
       console.log("index reset")
-    }
-    displayActivePlayer(pigGame.activePlayerIndex)
-    displayPlayers(pigGame.playerArray);
+    }        
+    if (pigGame.playerArray[pigGame.activePlayerIndex].type ===  "CPU Easy") {
+      console.log("EASY CPU!")
+      cpuEasyTurn()
+    } else {
+      $("#roll").show();
+      $("#pass").hide();
+      $("#hold").show();
+      $("#diceRoll").text("")
+      displayActivePlayer(pigGame.activePlayerIndex)
+      displayPlayers(pigGame.playerArray);
+    }    
   }
+
+  function cpuEasyTurn() {
+    $("#hold").hide();
+    $("#roll").hide();    
+    let diceRoll1 = Math.floor((Math.random() * 6) + 1);
+    console.log(diceRoll1)     
+    if (diceRoll1 ===1) {
+      $("#diceRoll").text("Rolled a 1 OUCH!")
+      pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+      $("#pass").show();
+    } else {
+        $("#diceRoll").text("Rolled a "+diceRoll1)
+        addScore(diceRoll1);
+        let diceRoll2 = Math.floor((Math.random() * 6) + 1);
+        console.log(diceRoll2)       
+        if (diceRoll2 ===1) {
+          $("#diceRoll").append(" then rolled a 1 OUCH!")
+          pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+          $("#pass").show();
+        } else {
+            $("#diceRoll").append(" then rolled a "+diceRoll2+"!")
+            addScore(diceRoll2);
+        }
+      }
+    pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    endGame();
+    $("#pass").show();    
+    displayActivePlayer(pigGame.activePlayerIndex)
+    displayPlayers(pigGame.playerArray);   
+  } 
+
+
+
+
+
+  function cpuHardTurn() {
+
+  }
+
+
 
   function addScore(roll) {
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore += roll;
@@ -108,7 +171,8 @@ $(document).ready(function(event) {
     $(".playerGroup").html(htmlToAdd);
   }
 
-  function startGame() {    
+  function startGame() {  
+    $("#cont").hide();  
     console.log("game start");
     pigGame.playerCount = pigGame.playerArray.length;
     console.log(pigGame.playerCount);
