@@ -33,21 +33,70 @@ $(document).ready(function(event) {
     event.preventDefault();
     createPlayer($("#enterName").val(),$("#playerType").val());
   });
+
   $("#startGame").click(function(){ 
     $("#playerCreate").hide();
     $("#gameInterface").show();
     startGame();
    });
+
   $("#pass").click(function() {
+    passTurn();
+    // console.log("pass!")
+    // $("#diceRoll").text("")
+    // pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    // pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+    // pigGame.activePlayerIndex += 1;
+    // if (pigGame.activePlayerIndex > pigGame.playerCount - 1) {
+
+    //   pigGame.activePlayerIndex = 0 
+    //   console.log("index reset")
+    // }
+    // displayActivePlayer(pigGame.activePlayerIndex)
+    // displayPlayers(pigGame.playerArray);
+  });
+
+  $("#roll").click(function() {
+    let diceRoll = Math.floor((Math.random() * 6) + 1);
+    console.log(diceRoll)
+    $("#diceRoll").text("Rolled a "+diceRoll+"!") 
+    if (diceRoll ===1) {
+      $("#diceRoll").text("Rolled a 1 OUCH!")
+      $("#roll").hide();
+      pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+      displayActivePlayer(pigGame.activePlayerIndex)
+      //passTurn();
+    } else {
+        addScore(diceRoll);
+    }
+  });
+
+
+  function passTurn () {
     console.log("pass!")
+    $("#roll").show();
+    $("#diceRoll").text("")
+    pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
     pigGame.activePlayerIndex += 1;
     if (pigGame.activePlayerIndex > pigGame.playerCount - 1) {
-
       pigGame.activePlayerIndex = 0 
       console.log("index reset")
     }
     displayActivePlayer(pigGame.activePlayerIndex)
-  });
+    displayPlayers(pigGame.playerArray);
+  }
+
+
+
+
+  function addScore(roll) {
+    pigGame.playerArray[pigGame.activePlayerIndex].turnScore += roll;
+    displayActivePlayer(pigGame.activePlayerIndex);
+  }
+
+
+
 
   function createPlayer(name,type) {
     console.log(name);
@@ -81,7 +130,7 @@ $(document).ready(function(event) {
     //playerTurn(determinePLayer)
   }
 
-  function gameRound() {
+  function gameRound() { // < Maybe dont need this 
     //let playerCount = pigGame.playerArray.length
     //console.log(playerCount)
     pigGame.rounds += 1;
