@@ -144,23 +144,28 @@ $(document).ready(function(event) {
   function cpuHardTurn() {
     $("#hold").hide();
     $("#roll").hide();
-    $("#diceRoll").text("");
-
-    let rollCount = 1
+    $("#diceRoll").text("");    
+    
+    // LOGIC TO ADD EXTRA ROLLS IF BEHIND ----
+    let rollCount = 3
     let playerScores = []
+    let differance
     pigGame.playerArray.forEach(function(player) {
       if (player.name !==pigGame.playerArray[pigGame.activePlayerIndex].name) {
         console.log("not him") 
         playerScores.push(player.totalScore)
       }
-    })
-    //console.log(playerScores)
+    })    
     let highScore = Math.max(...playerScores) 
     if (highScore > pigGame.playerArray[pigGame.activePlayerIndex].totalScore) {
-      let differance = highScore - pigGame.playerArray[pigGame.activePlayerIndex].totalScore
+      differance = highScore - pigGame.playerArray[pigGame.activePlayerIndex].totalScore
       console.log(differance,highScore,pigGame.playerArray[pigGame.activePlayerIndex].totalScore)
-    }
+    }      
+    let extraRolls = Math.ceil(differance/6)
+    console.log("hard cpu extra rolls",extraRolls)
+    rollCount += extraRolls
 
+    // START ROLLING ----
     for (let index = 0; index < rollCount; index +=1) {
       console.log("ROLL!",index)
       let diceRoll1 = Math.floor((Math.random() * 6) + 1);
@@ -176,6 +181,7 @@ $(document).ready(function(event) {
           addScore(diceRoll1);
         }
     }
+    // IF SCORE < 15 ROLL AGAIN!?
     pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
     endGame();
     $("#pass").show();    
@@ -205,7 +211,7 @@ $(document).ready(function(event) {
     let htmlToAdd = "";
     pigGame.playerArray.forEach(function(player) {
 
-      htmlToAdd += '<div class="player" id="'+player.Id+'"><h2>'+player.name+' "'+player.type+'"'+'</h2><p>'+'Total Score:'+player.totalScore+'</p></div>'
+      htmlToAdd += '<div class="player" id="'+player.Id+'"><h2>'+player.name+' "'+player.type+'"'+'</h2><p>'+'Total Score: '+player.totalScore+'</p></div>'
       console.log(htmlToAdd);
     });
     $(".playerGroup").html(htmlToAdd);
@@ -222,7 +228,7 @@ $(document).ready(function(event) {
   function endGame(){
     console.log("endgametrigger")
     if (pigGame.playerArray[pigGame.activePlayerIndex].totalScore >= 50){
-     $("#everything").hide();
+     //$("#everything").hide();
      $("#winner").show();
      $("#winner").text(pigGame.playerArray[pigGame.activePlayerIndex].name + " Wins! Final Score: "+pigGame.playerArray[pigGame.activePlayerIndex].totalScore);
     }
