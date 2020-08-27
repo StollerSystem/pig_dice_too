@@ -93,13 +93,16 @@ $(document).ready(function(event) {
     if (pigGame.playerArray[pigGame.activePlayerIndex].type ===  "CPU Easy") {
       console.log("EASY CPU!")
       cpuEasyTurn()
+    } else if (pigGame.playerArray[pigGame.activePlayerIndex].type ===  "CPU Hard") {
+      console.log("Hard CPU!")
+      cpuHardTurn()
     } else {
-      $("#roll").show();
-      $("#pass").hide();
-      $("#hold").show();
-      $("#diceRoll").text("")
-      displayActivePlayer(pigGame.activePlayerIndex)
-      displayPlayers(pigGame.playerArray);
+        $("#roll").show();
+        $("#pass").hide();
+        $("#hold").show();
+        $("#diceRoll").text("")
+        displayActivePlayer(pigGame.activePlayerIndex)
+        displayPlayers(pigGame.playerArray);
     }    
   }
 
@@ -138,10 +141,33 @@ $(document).ready(function(event) {
 
 
   function cpuHardTurn() {
-
+    $("#hold").hide();
+    $("#roll").hide();
+    //$("#pass").show();
+    // How many times will it roll CRAZY FORMAL 
+    // - 4 
+    let rollCount = 4
+    for (let index = 0; index < rollCount; index +=1) {
+      console.log("ROLL!",index)
+      let diceRoll1 = Math.floor((Math.random() * 6) + 1);
+      console.log(diceRoll1)     
+      if (diceRoll1 ===1) {
+        $("#diceRoll").text("Rolled a 1 OUCH!")
+        pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
+        displayActivePlayer(pigGame.activePlayerIndex);
+        //$("#pass").show();
+        break;
+      } else {
+          $("#diceRoll").append(" Rolled a "+diceRoll1+"!")
+          addScore(diceRoll1);
+        }
+    }
+    pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    endGame();
+    $("#pass").show();    
+    displayActivePlayer(pigGame.activePlayerIndex)
+    displayPlayers(pigGame.playerArray); 
   }
-
-
 
   function addScore(roll) {
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore += roll;
@@ -195,7 +221,7 @@ $(document).ready(function(event) {
     console.log("round#",pigGame.rounds);
    
     //console.log(currentPlayerIndex)
-    console.log("round#",pigGame.rounds);
+    //console.log("round#",pigGame.rounds);
     // for (const player of pigGame.playerArray) {
     //   playerTurn(player)
     // }
