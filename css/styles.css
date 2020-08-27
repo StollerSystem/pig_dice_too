@@ -1,0 +1,13 @@
+.player {
+  border: solid black;
+  border-width: 2px;
+  margin: auto;
+  width: 20%;
+}
+
+#playerCreate {
+  border: solid black;
+  border-width: 2px;
+  padding: 5px;
+  width: 20%;
+}
