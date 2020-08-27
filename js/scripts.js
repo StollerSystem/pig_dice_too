@@ -1,3 +1,4 @@
+// Business Logic 
 
 function Game() {
   this.playerArray = []
@@ -6,11 +7,8 @@ function Game() {
   this.activePlayerIndex = 0
   this.playerCount = 0 
 }
+
  let pigGame = new Game()
-
-
-
-
 
 function Player(Id,name,type) {
   this.Id = Id
@@ -19,9 +17,6 @@ function Player(Id,name,type) {
   this.totalScore = 0
   this.turnScore = 0
 }
-
-
-
 
 
 
@@ -46,10 +41,10 @@ $(document).ready(function(event) {
   });
 
   $("#hold").click(function() {
+    pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    endGame();
     passTurn();    
   });
-
-
 
   $("#roll").click(function() {
     let diceRoll = Math.floor((Math.random() * 6) + 1);
@@ -68,14 +63,13 @@ $(document).ready(function(event) {
     }
   });
 
-
-  function passTurn () {
+  function passTurn () { // NEED TO CHECK FOR AI HERE?
     console.log("pass!")
     $("#roll").show();
     $("#pass").hide();
     $("#hold").show();
     $("#diceRoll").text("")
-    pigGame.playerArray[pigGame.activePlayerIndex].totalScore += pigGame.playerArray[pigGame.activePlayerIndex].turnScore
+    
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore = 0
     pigGame.activePlayerIndex += 1;
     if (pigGame.activePlayerIndex > pigGame.playerCount - 1) {
@@ -86,16 +80,10 @@ $(document).ready(function(event) {
     displayPlayers(pigGame.playerArray);
   }
 
-
-
-
   function addScore(roll) {
     pigGame.playerArray[pigGame.activePlayerIndex].turnScore += roll;
     displayActivePlayer(pigGame.activePlayerIndex);
   }
-
-
-
 
   function createPlayer(name,type) {
     console.log(name);
@@ -124,9 +112,16 @@ $(document).ready(function(event) {
     console.log("game start");
     pigGame.playerCount = pigGame.playerArray.length;
     console.log(pigGame.playerCount);
-    gameRound();
+    gameRound();    
+  }
 
-    //playerTurn(determinePLayer)
+  function endGame(){
+    console.log("endgametrigger")
+    if (pigGame.playerArray[pigGame.activePlayerIndex].totalScore >= 30){
+     $("#everything").hide();
+     $("#winner").show();
+     $("#winner").text(pigGame.playerArray[pigGame.activePlayerIndex].name + " Wins! Final Score: "+pigGame.playerArray[pigGame.activePlayerIndex].totalScore);
+    }
   }
 
   function gameRound() { // < Maybe dont need this 
@@ -141,9 +136,7 @@ $(document).ready(function(event) {
     //   playerTurn(player)
     // }
     displayActivePlayer(pigGame.activePlayerIndex);
-  }
-
-  
+  }  
 
   function displayActivePlayer(activePlayerIndex) {
     player = pigGame.playerArray[activePlayerIndex]

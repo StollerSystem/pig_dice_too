@@ -25,3 +25,8 @@
   border: solid black;
   margin: auto;
 }
+
+#winner {
+  text-align: center;
+  font-size: 100px;
+}
